@@ -1,2 +1,2 @@
 # Jenkins-microservices-pipeline
-Jenkins and Kubernetes were hosted in Google Cloud VMs.
+Jenkins and Kubernetes (master and worker node) were hosted in Google Cloud VMs.
