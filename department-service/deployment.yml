@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: department-service
+  labels:
+    app: department-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: department-service
+  template:
+    metadata:
+      labels:
+        app: department-service
+    spec:
+      containers:
+        - name: department-service
+          image: edvinas9870/department-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9001
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: department-service
+spec:
+  type: NodePort
+  selector:
+    app: department-service
+  ports:
+    - targetPort: 9001
+      port: 80
+      nodePort: 30002

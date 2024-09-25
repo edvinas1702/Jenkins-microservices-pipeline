@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: edvinas9870/api-gateway:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9191
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-gateway
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 9191
+      port: 80
+      nodePort: 30000
+      protocol: TCP
+  selector:
+    app: api-gateway
